@@ -1,0 +1,12 @@
+{
+    "test": {
+        "PORT": 3000,
+        "MONGODB_URI": "mongodb://localhost:27017/SpaggiariPageTest",
+        "JWT_SECRET": "hjocwdonfeqk789unmkansnkona"
+    },
+    "development": {
+        "PORT": 3000,
+        "MONGODB_URI": "mongodb://localhost:27017/SpaggiariPage",
+        "JWT_SECRET": "jkvlnkoqekmuadnj783q9vi35uinq"
+    }
+}
