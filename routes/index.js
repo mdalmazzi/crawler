@@ -13,7 +13,10 @@ router.get('/', function(req, res) {
         //console.log(content);
         scrapper.extractData(content, url, contentType, todo);
     });
-    //res.render('index', { title: 'Express' });
+
+    // Aggiunto per gestione PAGE
+    res.render('index', { title: 'Crawler Spaggiari' });
+    // Aggiunto per gestione PAGE
 });
 
 module.exports = router;

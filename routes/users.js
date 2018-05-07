@@ -1,9 +1,13 @@
-var express = require('express');
-var router = express.Router();
+/// Togliere non fa parte del progetto ora
 
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
-});
 
-module.exports = router;
+// var express = require('express');
+// var router = express.Router();
+
+// /* GET users listing. */
+// router.get('/', function(req, res) {
+//   res.send('respond with a resource');
+// });
+
+// module.exports = router;
+/// Togliere non fa parte del progetto ora
