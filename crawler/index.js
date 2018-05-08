@@ -2,7 +2,7 @@ var Crawler = require('simplecrawler');
 
 var { Todo } = require('../models/todo');
 
-module.exports.crawl = function(callback, todo) {
+module.exports.crawl = function(callback) {
 
     Todo.findOne({ 'completed': false }, function(error, todo) {
         if (error) return handleError(err);

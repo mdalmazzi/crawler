@@ -10,20 +10,20 @@ const typeContent = ["Page", "Image", "Video", "text/html; charset=UTF-8", "imag
 const typeLanguage = ["Italiano", "Inglese", "Spagnolo", "Francese", "Tedesco"];
 const typeMateria = ["Matematica", "Fisica"];
 
-var pageSchema = new Schema({
+var wordSchema = new Schema({
     // word: { type: String, required: true },
     titolo: {
         type: String,
         required: false,
-        //minlength: 1,
+        minlength: 1,
         trim: true
     },
-    body: {
-        type: String,
-        required: false,
-        //minlength: 1, in realtà dovrei scartarlo
-        trim: true
-    },
+    // body: {
+    //     type: String,
+    //     required: false,
+    //     //minlength: 1, in realtà dovrei scartarlo
+    //     trim: true
+    // },
     path: {
         type: String,
         required: true,
@@ -42,7 +42,6 @@ var pageSchema = new Schema({
         type: {
             name: String,
             content: String
-
         },
         required: false
     },
@@ -93,13 +92,28 @@ var pageSchema = new Schema({
         minlength: 1,
         trim: true,
         enum: typeMateria
-    }
-    // controllato: { type: Boolean, required: false },
-    // quality: { type: String, required: false }
+    },
+    controllato: {
+        type: Boolean,
+        required: false
+    },
+    quality: {
+        type: Number,
+        required: false,
+        trim: true,
+        min: 1,
+        max: 5
+    },
+    word: {
+        type: String,
+        required: false,
+        minlength: 1,
+        trim: true
 
+    }
 });
 
-var Page = mongoose.model('Page', pageSchema);
-module.exports = Page;
+var Word = mongoose.model('Word', wordSchema);
+module.exports = Word;
 
 // make this available to our users in our Node application

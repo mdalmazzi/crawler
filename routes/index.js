@@ -4,19 +4,29 @@ var router = express.Router();
 var fs = require("fs");
 
 var crawler = require('../crawler/index');
-var scrapper = require('../scrapper/index')
+var scrapper = require('../scrapper/index');
+var scrapper_word = require('../scrapper/index');
 
 /* GET home page. */
 router.get('/', function(req, res) {
 
-    crawler.crawl(function(content, url, contentType, todo) {
-        //console.log(content);
-        scrapper.extractData(content, url, contentType, todo);
-    });
+    // crawler.crawl(function(content, url, contentType, todo) {
+    //     //console.log(content);
+    //     scrapper.extractData(content, url, contentType, todo);
+
+    // });
 
     // Aggiunto per gestione PAGE
     res.render('index', { title: 'Crawler Spaggiari' });
     // Aggiunto per gestione PAGE
 });
+
+// router.get('/word', function(req, res) {
+
+
+//     scrapper.extractData();
+
+
+// });
 
 module.exports = router;

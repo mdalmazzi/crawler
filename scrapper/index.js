@@ -4,14 +4,16 @@ var Page = require('../models/page');
 
 module.exports.extractData = function(html, url, contentType, todo) {
 
-    var $ = cheerio.load(html, {
-        normalizeWhitespace: true
-    });
+    // var $ = cheerio.load(html, {
+    //     normalizeWhitespace: true
+    // });
+
+    var $ = cheerio.load(html);
 
     console.log('contentType: ', contentType);
 
     var $images = $('img');
-    //console.log($images);
+
     var description = $('meta[name="description"]').attr('content');
     var keywords = $('meta[name="keywords"]').attr('content');
     var category = $('meta[name="category"]').attr('content');
@@ -19,13 +21,14 @@ module.exports.extractData = function(html, url, contentType, todo) {
 
     //var body = $("body").text().replace(/<(?:.|\n)*?>/gm, '');
 
-    $('html > body').each(function() {
-        var body = $('html > body').text().replace(/<(?:.|\n)*?>/gm, '')
-            //var body = $('body').text();
-            // var body = $('html *').contents().map(function() {
-            //     return (this.type === 'text') ? $(this).text() : '';
-            // }).get().join(' ');
+    var body = $('html > body').text();
+    // var body = $('html > body').text().replace(/<(?:.|\n)*?>/gm, '')
+    //var body = $('body').text();
+    // var body = $('html *').contents().map(function() {
+    //     return (this.type === 'text') ? $(this).text() : '';
+    // }).get().join(' ');
 
+    if (contentType !== 'text/css' && contentType !== 'text/javascript') {
         var page = new Page({
 
             titolo: title,
@@ -37,7 +40,8 @@ module.exports.extractData = function(html, url, contentType, todo) {
             type: contentType,
             licenza: todo.licenza,
             scuola: todo.scuola,
-            language: todo.language
+            lingua: todo.language,
+            materia: todo.materia
         });
 
         searchForImage($images, $, page);
@@ -46,7 +50,7 @@ module.exports.extractData = function(html, url, contentType, todo) {
             if (err) throw err;
             console.log('Page created!');
         });
-    });
+    }
 };
 
 function searchForImage($images, $, page) {

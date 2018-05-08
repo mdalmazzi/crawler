@@ -21,6 +21,8 @@ var { Todo } = require('./models/todo');
 var { User } = require('./models/user');
 
 var Page = require('./models/page');
+var Word = require('./models/word');
+
 var { authenticate } = require('./middleware/authenticate');
 
 var app = express();
@@ -42,35 +44,35 @@ app.use('/', routes);
 //app.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+// app.use(function(req, res, next) {
+//     var err = new Error('Not Found');
+//     err.status = 404;
+//     next(err);
+// });
 
 // error handlers
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
+// if (app.get('env') === 'development') {
+//     app.use(function(err, req, res, next) {
+//         res.status(err.status || 500);
+//         res.render('error', {
+//             message: err.message,
+//             error: err
+//         });
+//     });
+// }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
+// app.use(function(err, req, res, next) {
+//     res.status(err.status || 500);
+//     res.render('error', {
+//         message: err.message,
+//         error: {}
+//     });
+// });
 
 app.post('/todos', authenticate, (req, res) => {
     var todo = new Todo({
@@ -98,7 +100,59 @@ app.post('/todos', authenticate, (req, res) => {
 // });
 
 //app.post('/todos', authenticate, (req, res) => {
+app.get('/word/:id', (req, res) => {
+    Page.find({
+        $text: {
+            $search: req.params.id,
+            // $language: <string>,
+            // $caseSensitive: <boolean>,
+            // $diacriticSensitive: <boolean>
+        }
+    }, {
+        body: 0
+    }).then((words) => {
+        var wordsave = words;
 
+        wordsave.forEach((word) => {
+            var word = new Word({
+                // Inserire tutto
+                titolo: word.titolo,
+                path: word.path,
+                meta1: word.meta1,
+                meta2: word.meta1,
+                meta3: word.meta1,
+                images: word.images,
+                type: word.type,
+                licenza: word.licenza,
+                scuola: word.scuola,
+                lingua: word.lingua,
+                materia: word.materia,
+                word: req.params.id
+                    //_creator: req.user._id
+            });
+
+            // word.save().then((doc) => {
+            //     res.send(doc);
+            // }, (e) => {
+            //     res.status(400).send(e);
+            // });
+            word.save(function(err, result) {
+
+                if (err) throw err;
+                else {
+                    //res.send(result);
+                    console.log('Salvataggio', result);
+                }
+            })
+        })
+
+        //var body = _.pick(req.body, ['email', 'password']);
+
+    }, (e) => {
+        res.status(400).send(e);
+    });
+
+});
 
 app.post('/pages', (req, res) => {
     var page = new Page({
